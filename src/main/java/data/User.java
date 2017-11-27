@@ -3,9 +3,9 @@ package data;
 public abstract class User {
     private String firstName;
     private String lastName;
-    private int pesel;
+    private String pesel;
 
-    public User(String firstName, String lastName, int pesel) {
+    public User(String firstName, String lastName, String pesel) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
@@ -27,11 +27,11 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public int getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 
@@ -61,7 +61,7 @@ public abstract class User {
 
     @Override
     public int hashCode() {
-        int result = pesel;
+        int result = pesel.hashCode();
         result = result * 31 + (firstName != null? firstName.hashCode():0);
         result = result * 31 + (lastName != null? lastName.hashCode():0);
         return result;

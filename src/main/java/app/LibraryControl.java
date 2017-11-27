@@ -2,10 +2,10 @@ package app;
 
 import data.Book;
 import data.Library;
+import data.LibraryUser;
 import data.Magazine;
 import utils.DataReader;
 import utils.LibraryUtils;
-
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 
@@ -36,6 +36,12 @@ public class LibraryControl {
                         break;
                     case PRINT_MAGAZINES:
                         printMagazines();
+                        break;
+                    case ADD_USER:
+                        addUser();
+                        break;
+                    case PRINT_USERS:
+                        printUsers();
                         break;
                     case EXIT:
                 }
@@ -72,12 +78,20 @@ public class LibraryControl {
     private void printMagazines() {
         LibraryUtils.printMagazines(library);
     }
+    private void addUser(){
+        LibraryUser user = dataReader.readAndCreateUser();
+        library.addUser(user);
+    }
+    private void printUsers(){
+        LibraryUtils.printUsers(library);
+    }
 }
 
     enum Option {
 
-    EXIT(0, "EXIT"), ADD_BOOK(1, "Add new book"), ADD_MAGAZINE(2, "Add new magazine"),
-    PRINT_BOOKS(3, "Print books"), PRINT_MAGAZINES(4, "Print magazines");
+    EXIT(0, "EXIT"), ADD_BOOK(1, "Add new book"), ADD_MAGAZINE(2, "Add new magazine"),ADD_USER (3, "Add new user"),
+    PRINT_BOOKS(4, "Print books"), PRINT_MAGAZINES(5, "Print magazines"),
+        PRINT_USERS(6,"Print users") ;
 
     private int value;
     private String description;

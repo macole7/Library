@@ -1,24 +1,29 @@
 package data;
 
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Library {
 
-    public static final int INITIAL_CAPACITY = 1;
-    private Publication[] publications;
-    private int publicationsNumber;
+    private Map<String, Publication> publications;
+    private Map<String, LibraryUser> users;
 
-    public Library() {
-        publications = new Publication[INITIAL_CAPACITY];
+    public Library(){
+        publications = new HashMap<>();
+        users = new HashMap<String, LibraryUser>();
     }
 
-    public int getPublicationsNumber() {
-        return publicationsNumber;
+    public int getPublicationsNumber(){
+        return this.publications.size();
     }
 
-    public Publication[] getPublications() {
+    public Map<String, Publication> getPublications(){
         return publications;
+    }
+
+    public Map<String, LibraryUser> getUsers() {
+        return users;
     }
 
     public void addBook(Book book) {
@@ -28,33 +33,30 @@ public class Library {
     public void addMagazine(Magazine magazine) {
         addPublication(magazine);
     }
+    public void addUser(LibraryUser user){
+        users.put(user.getPesel(), user);
+    }
 
-    public void addPublication(Publication publication) throws ArrayIndexOutOfBoundsException {
-        if (publicationsNumber == publications.length) {
-            publications = Arrays.copyOf(publications, publications.length * 2);
-        }
-        publications[publicationsNumber] = publication;
-        publicationsNumber++;
+    public void addPublication(Publication publication) {
+        publications.put(publication.getTitle(), publication);
     }
+
     public void removePublication(Publication publication){
-        if(publication == null){
-            return;
-        }
-        final int NOT_FOUND = -1;
-        int found = NOT_FOUND;
-        int i=0;
-        while (i<publications.length && found == NOT_FOUND){
-            if(publication.equals(publications[i])){
-                found = i;
-            } else {
-                i++;
-            }
-        }
-        if(found != NOT_FOUND){
-            System.arraycopy(publications, found + 1, publications, found, publications.length - found);
-            publicationsNumber--;
+        if(publications.containsValue(publication)){
+            publications.remove(publication.getTitle());
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Publication p: publications.values()){
+            stringBuilder.append(p);
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public static class AlphabeticalComparator implements Comparator<Publication>{
         @Override
         public int compare(Publication o1, Publication o2) {
